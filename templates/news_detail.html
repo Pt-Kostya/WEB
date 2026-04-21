@@ -1,31 +1,15 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Подключаем Bootstrap CSS -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-  <title>Новость: {{ title }}</title> <!-- Выводите здесь title -->
-</head>
-<body>
-  <div id="wrapper">
-    <!-- Навигация -->
-    {% include "navigation.html" %}
-    <!-- Контент страницы -->
-    <div class="container my-3">
-      <div class="row">
-        <div class="col-md-8">
-          <h1>{{ news_d.title }}</h1> <!-- Выводите здесь title -->
-          <hr>
-          <p>{{ news_d.text }}</p> <!-- Выводите здесь text -->
-        </div>
-        {% include "side_navigation.html" %}
-      </div>
-    </div>
-    <!-- Подвал -->
-    {% include "footer.html" %}
-  </div>
-    <!-- Подключаем Bootstrap JS -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}
+  {{ news.title }}
+{% endblock title %}
+{% block content %}
+  <h1>{{ news.title }}</h1>
+  {% if news.created_date %}
+    <span>Дата создания: </span><span class="badge badge-primary">{{ news.created_date.strftime('%d.%m.%Y') }}</span>
+  {% endif %}
+  {% if news.category %}
+    <span>Категория: <a href="{{ url_for('news_in_category', id=news.category.id) }}" class="badge badge-primary">{{ news.category.title }}</a></span>
+  {% endif %}
+  <hr>
+  <p>{{ news.text }}</p>
+{% endblock content %}
